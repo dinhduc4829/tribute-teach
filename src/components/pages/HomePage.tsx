@@ -545,50 +545,238 @@ function BackCover({
 }
 
 // ... keep existing code (CodeRain, CodePatternBackground, Fireworks)
+// Code Blocks Background - 10 ngôn ngữ lập trình với màu sắc đặc trưng
 function CodeRain() {
-  const codeSymbols = [
-    '01', '{}', '[]', '()', '<>', '//', '/*', '*/', '++', '--', 
-    '==', '!=', '<=', '>=', '&&', '||', 'if', 'for', 'int', 'void',
-    'class', 'return', '#include', 'std::', 'cout', 'cin', 'vector',
-    'map', 'set', 'queue', 'stack', 'algorithm', 'namespace',
-    'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン'
+  // Định nghĩa 10 ngôn ngữ với code thật và màu sắc đặc trưng
+  const codeBlocks = [
+    {
+      language: 'C++',
+      color: 'from-blue-500/20 to-blue-600/20',
+      borderColor: 'border-blue-500/40',
+      code: `#include <iostream>
+using namespace std;
+
+int main() {
+    int n = 10;
+    for(int i = 0; i < n; i++) {
+        cout << "Hello" << endl;
+    }
+    return 0;
+}`
+    },
+    {
+      language: 'Python',
+      color: 'from-yellow-500/20 to-blue-500/20',
+      borderColor: 'border-yellow-500/40',
+      code: `def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+for i in range(10):
+    print(f"F({i}) = {fibonacci(i)}")`
+    },
+    {
+      language: 'JavaScript',
+      color: 'from-yellow-400/20 to-yellow-500/20',
+      borderColor: 'border-yellow-400/40',
+      code: `const greet = (name) => {
+    return \`Hello, \${name}!\`;
+};
+
+const users = ['Alice', 'Bob'];
+users.forEach(user => {
+    console.log(greet(user));
+});`
+    },
+    {
+      language: 'Java',
+      color: 'from-red-500/20 to-orange-500/20',
+      borderColor: 'border-red-500/40',
+      code: `public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello!");
+        
+        for(int i = 0; i < 5; i++) {
+            System.out.println(i);
+        }
+    }
+}`
+    },
+    {
+      language: 'C#',
+      color: 'from-purple-500/20 to-purple-600/20',
+      borderColor: 'border-purple-500/40',
+      code: `using System;
+
+class Program {
+    static void Main() {
+        var numbers = new[] { 1, 2, 3 };
+        
+        foreach(var num in numbers) {
+            Console.WriteLine(num);
+        }
+    }
+}`
+    },
+    {
+      language: 'PHP',
+      color: 'from-indigo-500/20 to-purple-500/20',
+      borderColor: 'border-indigo-500/40',
+      code: `<?php
+function calculateSum($arr) {
+    $sum = 0;
+    foreach($arr as $num) {
+        $sum += $num;
+    }
+    return $sum;
+}
+
+echo calculateSum([1, 2, 3]);
+?>`
+    },
+    {
+      language: 'Ruby',
+      color: 'from-red-600/20 to-red-700/20',
+      borderColor: 'border-red-600/40',
+      code: `def greet(name)
+  puts "Hello, #{name}!"
+end
+
+names = ['Alice', 'Bob']
+names.each do |name|
+  greet(name)
+end`
+    },
+    {
+      language: 'Go',
+      color: 'from-cyan-500/20 to-blue-500/20',
+      borderColor: 'border-cyan-500/40',
+      code: `package main
+
+import "fmt"
+
+func main() {
+    numbers := []int{1, 2, 3}
+    
+    for _, num := range numbers {
+        fmt.Printf("Number: %d\\n", num)
+    }
+}`
+    },
+    {
+      language: 'Swift',
+      color: 'from-orange-500/20 to-red-500/20',
+      borderColor: 'border-orange-500/40',
+      code: `func fibonacci(_ n: Int) -> Int {
+    if n <= 1 { return n }
+    return fibonacci(n-1) + fibonacci(n-2)
+}
+
+for i in 0..<8 {
+    print("F(\\(i)) = \\(fibonacci(i))")
+}`
+    },
+    {
+      language: 'Kotlin',
+      color: 'from-purple-600/20 to-pink-500/20',
+      borderColor: 'border-purple-600/40',
+      code: `fun main() {
+    val numbers = listOf(1, 2, 3, 4)
+    
+    numbers.forEach { num ->
+        println("Number: $num")
+    }
+    
+    println("Sum: \${numbers.sum()}")
+}`
+    }
   ];
-  
-  const [drops, setDrops] = useState<Array<{ x: number; speed: number; chars: string[] }>>([]);
+
+  // Tạo các khối code với vị trí theo tỉ lệ vàng
+  const goldenRatio = 1.618;
+  const [blocks, setBlocks] = useState<Array<{
+    id: number;
+    language: string;
+    code: string;
+    color: string;
+    borderColor: string;
+    x: number;
+    width: number;
+    delay: number;
+  }>>([]);
 
   useEffect(() => {
-    const columns = Math.floor(window.innerWidth / 25);
-    const newDrops = Array.from({ length: columns }, (_, i) => ({
-      x: i * 25,
-      speed: Math.random() * 2 + 1,
-      chars: Array.from({ length: 15 }, () => 
-        codeSymbols[Math.floor(Math.random() * codeSymbols.length)]
-      )
-    }));
-    setDrops(newDrops);
+    const screenWidth = window.innerWidth;
+    const baseWidth = 280; // Chiều rộng cơ bản
+    
+    // Tạo nhiều khối code lặp lại để lấp đầy màn hình
+    const newBlocks = [];
+    let currentX = 0;
+    let blockId = 0;
+    
+    // Tạo đủ khối để lấp đầy chiều ngang + thêm một chút
+    while (currentX < screenWidth + 500) {
+      const codeBlock = codeBlocks[blockId % codeBlocks.length];
+      const width = baseWidth * (Math.random() * 0.3 + 0.85); // Biến đổi width nhẹ
+      
+      newBlocks.push({
+        id: blockId,
+        language: codeBlock.language,
+        code: codeBlock.code,
+        color: codeBlock.color,
+        borderColor: codeBlock.borderColor,
+        x: currentX,
+        width: width,
+        delay: Math.random() * 10, // Random delay để tạo hiệu ứng tự nhiên
+      });
+      
+      // Khoảng cách giữa các khối theo tỉ lệ vàng
+      currentX += width * goldenRatio;
+      blockId++;
+    }
+    
+    setBlocks(newBlocks);
   }, []);
 
   return (
-    <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
-      {drops.map((drop, i) => (
+    <div className="absolute inset-0 opacity-15 pointer-events-none overflow-hidden">
+      {blocks.map((block) => (
         <motion.div
-          key={i}
-          initial={{ y: -400 }}
-          animate={{ y: window.innerHeight + 400 }}
+          key={block.id}
+          initial={{ y: window.innerHeight + 200 }}
+          animate={{ y: -600 }}
           transition={{
-            duration: 10 / drop.speed,
+            duration: 40 + Math.random() * 20, // Tốc độ khác nhau
             repeat: Infinity,
             ease: "linear",
-            delay: Math.random() * 5
+            delay: block.delay,
           }}
-          className="absolute font-mono text-light-gold text-xs"
-          style={{ left: drop.x }}
+          className="absolute"
+          style={{ 
+            left: block.x,
+            width: block.width,
+          }}
         >
-          {drop.chars.map((char, j) => (
-            <div key={j} className="opacity-40 mb-1">
-              {char}
+          {/* Khung code với màu sắc đặc trưng */}
+          <div className={`bg-gradient-to-br ${block.color} backdrop-blur-sm rounded-lg border ${block.borderColor} p-4 shadow-lg`}>
+            {/* Header với tên ngôn ngữ */}
+            <div className="flex items-center gap-2 mb-3 pb-2 border-b border-white/10">
+              <div className="flex gap-1">
+                <div className="w-2 h-2 rounded-full bg-red-400/60"></div>
+                <div className="w-2 h-2 rounded-full bg-yellow-400/60"></div>
+                <div className="w-2 h-2 rounded-full bg-green-400/60"></div>
+              </div>
+              <span className="font-mono text-xs text-white/80 font-semibold">
+                {block.language}
+              </span>
             </div>
-          ))}
+            
+            {/* Code content */}
+            <pre className="font-mono text-xs text-white/70 leading-relaxed overflow-hidden">
+              {block.code}
+            </pre>
+          </div>
         </motion.div>
       ))}
     </div>
