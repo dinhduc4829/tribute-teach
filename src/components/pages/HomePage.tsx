@@ -142,44 +142,68 @@ export default function HomePage() {
             x: { type: "spring", stiffness: 300, damping: 30 },
             opacity: { duration: 0.5 }
           }}
-          className={`absolute inset-0 flex items-center justify-center ${slides[currentSlide].bgColor}`}
+          className={`absolute inset-0 flex items-center justify-center p-4 md:p-8 lg:p-12 ${slides[currentSlide].bgColor}`}
         >
-          <div className="max-w-[100rem] mx-auto px-8 md:px-16 lg:px-24 text-center">
-            <motion.h1
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-              className="font-heading text-5xl md:text-7xl lg:text-8xl text-foreground mb-6 tracking-tight"
-            >
-              {slides[currentSlide].title}
-            </motion.h1>
+          {/* Elegant Card Frame - Khung thiệp trang trọng */}
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="relative max-w-[90rem] w-full mx-auto"
+          >
+            {/* Outer decorative border - Viền ngoài trang trí */}
+            <div className="absolute -inset-4 bg-gradient-to-br from-light-gold/30 via-light-gold/10 to-light-gold/30 rounded-2xl blur-xl" />
+            
+            {/* Main card container - Khung thiệp chính */}
+            <div className="relative bg-gradient-to-br from-primary/40 via-black/95 to-primary/40 rounded-xl border-2 border-light-gold/40 shadow-2xl backdrop-blur-sm">
+              {/* Inner decorative corners - Góc trang trí bên trong */}
+              <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-light-gold/60 rounded-tl-xl" />
+              <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-light-gold/60 rounded-tr-xl" />
+              <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-light-gold/60 rounded-bl-xl" />
+              <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-light-gold/60 rounded-br-xl" />
+              
+              {/* Content area - Khu vực nội dung */}
+              <div className="relative px-8 py-12 md:px-16 md:py-16 lg:px-24 lg:py-20 text-center">
+                <motion.h1
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+                  className="font-heading text-4xl md:text-6xl lg:text-7xl text-foreground mb-6 tracking-tight"
+                >
+                  {slides[currentSlide].title}
+                </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
-              className="font-paragraph text-xl md:text-2xl text-light-gold mb-12"
-            >
-              {slides[currentSlide].subtitle}
-            </motion.p>
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
+                  className="font-paragraph text-lg md:text-xl lg:text-2xl text-light-gold mb-10"
+                >
+                  {slides[currentSlide].subtitle}
+                </motion.p>
 
-            {slides[currentSlide].content && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 0.6 }}
-                className="max-w-4xl mx-auto"
-              >
-                <p className="font-paragraph text-base md:text-lg text-secondary leading-relaxed whitespace-pre-line">
-                  {slides[currentSlide].content}
-                </p>
-              </motion.div>
-            )}
+                {slides[currentSlide].content && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1, delay: 0.6 }}
+                    className="max-w-4xl mx-auto"
+                  >
+                    <p className="font-paragraph text-sm md:text-base lg:text-lg text-secondary/90 leading-relaxed whitespace-pre-line">
+                      {slides[currentSlide].content}
+                    </p>
+                  </motion.div>
+                )}
 
-            {slides[currentSlide].isLast && showFireworks && (
-              <Fireworks />
-            )}
-          </div>
+                {slides[currentSlide].isLast && showFireworks && (
+                  <Fireworks />
+                )}
+              </div>
+              
+              {/* Subtle inner glow - Ánh sáng nhẹ bên trong */}
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-light-gold/5 via-transparent to-transparent pointer-events-none" />
+            </div>
+          </motion.div>
         </motion.div>
       </AnimatePresence>
 
