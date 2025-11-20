@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, ChevronLeft, Volume2, VolumeX } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Volume2, VolumeX, Code2, Terminal, Braces, Binary, Cpu, CircuitBoard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const slides = [
@@ -154,13 +154,62 @@ export default function HomePage() {
             {/* Outer decorative border - Viền ngoài trang trí */}
             <div className="absolute -inset-4 bg-gradient-to-br from-light-gold/30 via-light-gold/10 to-light-gold/30 rounded-2xl blur-xl" />
             
+            {/* Code Pattern Background - Nền pattern code tinh tế */}
+            <div className="absolute inset-0 opacity-5 pointer-events-none rounded-xl overflow-hidden">
+              <CodePatternBackground />
+            </div>
+            
             {/* Main card container - Khung thiệp chính */}
             <div className="relative bg-gradient-to-br from-primary/40 via-black/95 to-primary/40 rounded-xl border-2 border-light-gold/40 shadow-2xl backdrop-blur-sm">
-              {/* Inner decorative corners - Góc trang trí bên trong */}
-              <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-light-gold/60 rounded-tl-xl" />
-              <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-light-gold/60 rounded-tr-xl" />
-              <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-light-gold/60 rounded-bl-xl" />
-              <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-light-gold/60 rounded-br-xl" />
+              {/* Tech decorative borders - Viền trang trí công nghệ */}
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-light-gold/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-light-gold/30 to-transparent" />
+              <div className="absolute top-0 bottom-0 left-0 w-px bg-gradient-to-b from-transparent via-light-gold/30 to-transparent" />
+              <div className="absolute top-0 bottom-0 right-0 w-px bg-gradient-to-b from-transparent via-light-gold/30 to-transparent" />
+              
+              {/* Inner decorative corners with icons - Góc trang trí với icon code */}
+              {/* Top Left Corner */}
+              <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-light-gold/60 rounded-tl-xl">
+                <Code2 className="absolute top-2 left-2 w-5 h-5 text-light-gold/70" />
+              </div>
+              
+              {/* Top Right Corner */}
+              <div className="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-light-gold/60 rounded-tr-xl">
+                <Terminal className="absolute top-2 right-2 w-5 h-5 text-light-gold/70" />
+              </div>
+              
+              {/* Bottom Left Corner */}
+              <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-light-gold/60 rounded-bl-xl">
+                <Braces className="absolute bottom-2 left-2 w-5 h-5 text-light-gold/70" />
+              </div>
+              
+              {/* Bottom Right Corner */}
+              <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-light-gold/60 rounded-br-xl">
+                <Cpu className="absolute bottom-2 right-2 w-5 h-5 text-light-gold/70" />
+              </div>
+              
+              {/* Side decorative tech icons - Icon trang trí bên cạnh */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-6"
+              >
+                <Binary className="w-4 h-4 text-light-gold/40" />
+                <CircuitBoard className="w-4 h-4 text-light-gold/40" />
+                <Code2 className="w-4 h-4 text-light-gold/40" />
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-6"
+              >
+                <Terminal className="w-4 h-4 text-light-gold/40" />
+                <Cpu className="w-4 h-4 text-light-gold/40" />
+                <Braces className="w-4 h-4 text-light-gold/40" />
+              </motion.div>
               
               {/* Content area - Khu vực nội dung */}
               <div className="relative px-8 py-12 md:px-16 md:py-16 lg:px-24 lg:py-20 text-center">
@@ -268,18 +317,25 @@ export default function HomePage() {
   );
 }
 
-// Code Rain Component
+// Code Rain Component - Enhanced with C++ and programming symbols
 function CodeRain() {
-  const characters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+  const codeSymbols = [
+    '01', '{}', '[]', '()', '<>', '//', '/*', '*/', '++', '--', 
+    '==', '!=', '<=', '>=', '&&', '||', 'if', 'for', 'int', 'void',
+    'class', 'return', '#include', 'std::', 'cout', 'cin', 'vector',
+    'map', 'set', 'queue', 'stack', 'algorithm', 'namespace',
+    'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン'
+  ];
+  
   const [drops, setDrops] = useState<Array<{ x: number; speed: number; chars: string[] }>>([]);
 
   useEffect(() => {
-    const columns = Math.floor(window.innerWidth / 20);
+    const columns = Math.floor(window.innerWidth / 25);
     const newDrops = Array.from({ length: columns }, (_, i) => ({
-      x: i * 20,
+      x: i * 25,
       speed: Math.random() * 2 + 1,
-      chars: Array.from({ length: 20 }, () => 
-        characters[Math.floor(Math.random() * characters.length)]
+      chars: Array.from({ length: 15 }, () => 
+        codeSymbols[Math.floor(Math.random() * codeSymbols.length)]
       )
     }));
     setDrops(newDrops);
@@ -298,14 +354,43 @@ function CodeRain() {
             ease: "linear",
             delay: Math.random() * 5
           }}
-          className="absolute font-mono text-light-gold text-sm"
+          className="absolute font-mono text-light-gold text-xs"
           style={{ left: drop.x }}
         >
           {drop.chars.map((char, j) => (
-            <div key={j} className="opacity-50">
+            <div key={j} className="opacity-40 mb-1">
               {char}
             </div>
           ))}
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+// Code Pattern Background - Subtle tech pattern for card background
+function CodePatternBackground() {
+  const patterns = [
+    '{ }', '[ ]', '< >', '( )', '//', '++', '--', '==', '!=', 
+    'if', 'for', 'int', 'void', 'class', 'return', '#include',
+    'std::', 'cout', 'cin', 'vector', 'map', 'algorithm'
+  ];
+
+  return (
+    <div className="w-full h-full grid grid-cols-12 gap-4 p-8">
+      {Array.from({ length: 60 }).map((_, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0.3, 0.6, 0.3] }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            delay: Math.random() * 2
+          }}
+          className="font-mono text-light-gold text-xs flex items-center justify-center"
+        >
+          {patterns[Math.floor(Math.random() * patterns.length)]}
         </motion.div>
       ))}
     </div>
